@@ -842,9 +842,11 @@ bool getZOffset(bool isNozzleClr, bool isRunProByPress, bool isRunProByTouch, fl
 
 #endif
   
-#if ANY(X_ROUTINE_AUTO_OFFSET, D_ROUTINE_AUTO_OFFSET)
-  *outOffset = robust_offset_from_points(vals, valid_pts, vcount);
 #endif
+
+  *outOffset = robust_offset_from_points(vals, valid_pts, vcount);
+
+#if ENABLED(X_ROUTINE_AUTO_OFFSET)
   
 #if ENABLED(X_ROUTINE_AUTO_OFFSET)
     SERIAL_ECHOLNPGM_P("=== Z Offset Measurement Completed (5 points) ===");
