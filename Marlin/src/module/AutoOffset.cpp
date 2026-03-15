@@ -803,7 +803,9 @@ bool getZOffset(bool isNozzleClr, bool isRunProByPress, bool isRunProByTouch, fl
     return false;
   }
 
-  // Final robust estimate (median fallback internal)
+// Final robust estimate (median fallback internal)
+  *outOffset = robust_offset_from_points(vals, valid_pts, vcount);
+
 #elif ENABLED(D_ROUTINE_AUTO_OFFSET)
   // Points requested
   const xyz_float_t Probes[4] = {
@@ -819,10 +821,8 @@ bool getZOffset(bool isNozzleClr, bool isRunProByPress, bool isRunProByTouch, fl
   uint8_t vcount = 0;
 
   for (uint8_t i = 0; i < 4; ++i)
-  
   {
     float zoff = Multiple_Hight_At(Probes[i], isRunProByPress, isRunProByTouch);
-    // Filters invalid values ​​(≈0, out of range)
     if (is_valid_offset(zoff)) {
       vals[vcount++] = zoff;
       valid_pts[vcount - 1] = Probes[i];
@@ -830,7 +830,6 @@ bool getZOffset(bool isNozzleClr, bool isRunProByPress, bool isRunProByTouch, fl
     } else {
       PRINTF("***POINT[%d @ %s,%s] => zOffset=%s (discarded)\n", i, getStr(Probes[i].x), getStr(Probes[i].y), getStr(zoff));
     }
-    // RUN_AND_WAIT_GCODE_CMD("G28", true);  // not needed between points
   }
 
   if (vcount == 0) {
@@ -838,16 +837,14 @@ bool getZOffset(bool isNozzleClr, bool isRunProByPress, bool isRunProByTouch, fl
     return false;
   }
 
-  // Final robust estimate (median fallback internal)
-
-#endif
-  
-#endif
-
+  // Final robust estimate
   *outOffset = robust_offset_from_points(vals, valid_pts, vcount);
 
-#if ENABLED(X_ROUTINE_AUTO_OFFSET)
-  
+#else
+  // Если ни одна рутина не включена, расчет невозможен
+  return false;
+#endif
+
 #if ENABLED(X_ROUTINE_AUTO_OFFSET)
     SERIAL_ECHOLNPGM_P("=== Z Offset Measurement Completed (5 points) ===");
     SERIAL_ECHOLNPGM("OUTPUT_ZOFFSET(5pt ROBUST): ", *outOffset);
