@@ -140,7 +140,7 @@ constexpr uint16_t TROWS = 6, MROWS = TROWS - 1, // Total rows, and other-than-B
 #endif
 
 #define font_offset 19
-#define BABY_Z_VAR TERN(HAS_BED_PROBE, probe.offset.z, dwin_zoffset)
+#define BABY_Z_VAR probe.offset.z
 
 char shift_name[101];
 char current_file_name[30];
