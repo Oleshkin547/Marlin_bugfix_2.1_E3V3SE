@@ -3785,7 +3785,7 @@ void HMI_Move_X()
       return HMI_Move_Done(X_AXIS);
     }
     LIMIT(HMI_ValueStruct.Move_X_scaled, (XY_BED_MIN_ZERO)*MINUNITMULT, (X_BED_SIZE)*MINUNITMULT);
-    motion_position.x = HMI_ValueStruct.Move_X_scaled / MINUNITMULT;
+    motion.current.x = HMI_ValueStruct.Move_X_scaled / MINUNITMULT;
     DWIN_Draw_Signed_Float(font8x16, Select_Color, 3, UNITFDIGITS, VALUERANGE_X, MBASE(1), HMI_ValueStruct.Move_X_scaled);
     // delay(10); //Solve the problem that two values ​​​​are selected together during rapid rotation.
     // DWIN_UpdateLCD();
@@ -3804,7 +3804,7 @@ void HMI_Move_Y()
       return HMI_Move_Done(Y_AXIS);
     }
     LIMIT(HMI_ValueStruct.Move_Y_scaled, (XY_BED_MIN_ZERO)*MINUNITMULT, (Y_BED_SIZE)*MINUNITMULT);
-    current_position.y = HMI_ValueStruct.Move_Y_scaled / MINUNITMULT;
+    motion.current.y = HMI_ValueStruct.Move_Y_scaled / MINUNITMULT;
     DWIN_Draw_Signed_Float(font8x16, Select_Color, 3, UNITFDIGITS, VALUERANGE_X, MBASE(2), HMI_ValueStruct.Move_Y_scaled);
     // delay(10); //Solve the problem that two values ​​​​are selected together during rapid rotation.
     // DWIN_UpdateLCD();
@@ -3825,7 +3825,7 @@ void HMI_Move_Z()
     }
     // rock_20211025 Modified axis movement interface cannot move to negative values to prevent collisions
     LIMIT(HMI_ValueStruct.Move_Z_scaled, (Z_MIN_POS)*MINUNITMULT, (Z_MAX_POS)*MINUNITMULT);
-    current_position.z = HMI_ValueStruct.Move_Z_scaled / MINUNITMULT;
+    motion.current.z = HMI_ValueStruct.Move_Z_scaled / MINUNITMULT;
 
     DWIN_Draw_Signed_Float(font8x16, Select_Color, 3, UNITFDIGITS, VALUERANGE_X, MBASE(3), HMI_ValueStruct.Move_Z_scaled);
     // delay(10); //Solve the problem that two values ​​​​are selected together during rapid rotation.
