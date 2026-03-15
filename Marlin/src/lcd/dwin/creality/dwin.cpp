@@ -239,9 +239,9 @@ float default_nozzle_ptemp = DEFAULT_KP;
 float default_nozzle_itemp = DEFAULT_KI;
 float default_nozzle_dtemp = DEFAULT_KD;
 
-float default_hotbed_ptemp = DEFAULT_BEDKP;
-float default_hotbed_itemp = DEFAULT_BEDKI;
-float default_hotbed_dtemp = DEFAULT_BEDKD;
+float default_hotbed_ptemp = DEFAULT_BED_KP;
+float default_hotbed_itemp = DEFAULT_BED_KI;
+float default_hotbed_dtemp = DEFAULT_BED_KD;
 uint16_t auto_bed_pid = 100, auto_nozzle_pid = 260;
 
 #if ENABLED(PAUSE_HEAT)
