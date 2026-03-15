@@ -69,6 +69,8 @@ lin 3D Printer Firmware
 
 #include "../../../module/AutoOffset.h"
 
+uint8_t CZ_AFTER_HOMING = 10;
+
 // #include <QRCodeGenerator.h>
 
 #ifndef MACHINE_SIZE
