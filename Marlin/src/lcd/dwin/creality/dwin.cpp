@@ -287,7 +287,7 @@ void Draw_Leveling_Highlight(const bool sel)
 static void pause_resume_feedstock(uint16_t _distance, uint16_t _feedRate)
 {
   char cmd[20], str_1[16];
-  current_position[E_AXIS] += _distance;
+  current_position.e += _distance;
   line_to_current_position(feedRate_t(_feedRate));
   current_position[E_AXIS] -= _distance;
   memset(cmd, 0, sizeof(cmd));
