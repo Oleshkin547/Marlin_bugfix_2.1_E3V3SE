@@ -43,6 +43,7 @@ lin 3D Printer Firmware
 #include "../../../sd/cardreader.h"
 #include "../../../MarlinCore.h"
 #include "../../../core/serial.h"
+#include "../../../module/motion.h"
 #include "../../../core/macros.h"
 #include "../../../gcode/queue.h"
 #include "../../../module/temperature.h"
