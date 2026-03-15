@@ -11669,7 +11669,7 @@ void EachMomentUpdate()
     // Print Stop
     dwin_abort_flag = false;
     HMI_ValueStruct.print_speed = motion.feedrate_percentage = 100;
-    dwin_zoffset = BABY_Z_VAR;
+    dwin_zoffset = probe.offset.z;
     select_page.set(0);
     Goto_MainMenu(); // Rock 20210831
   }
