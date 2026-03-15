@@ -58,6 +58,13 @@ lin 3D Printer Firmware
 #if HAS_ONESTEP_LEVELING
 #include "../../../feature/bedlevel/bedlevel.h"
 #endif
+// Исправление ошибки линковки CZ_AFTER_HOMING
+#if HAS_Z_HOME_OFFSET
+  float CZ_AFTER_HOMING = 10.0f; 
+#else
+  float CZ_AFTER_HOMING = 10.0f;
+#endif
+
 #if HAS_BED_PROBE
 #include "../../../module/probe.h"
 #endif
@@ -68,12 +75,7 @@ lin 3D Printer Firmware
 #endif
 
 #include "../../../module/AutoOffset.h"
-// Исправление ошибки линковки CZ_AFTER_HOMING
-#if HAS_Z_HOME_OFFSET
-  float CZ_AFTER_HOMING = 10.0f; 
-#else
-  float CZ_AFTER_HOMING = 10.0f;
-#endif
+
 // #include <QRCodeGenerator.h>
 
 #ifndef MACHINE_SIZE
