@@ -3785,7 +3785,7 @@ void HMI_Move_X()
       return HMI_Move_Done(X_AXIS);
     }
     LIMIT(HMI_ValueStruct.Move_X_scaled, (XY_BED_MIN_ZERO)*MINUNITMULT, (X_BED_SIZE)*MINUNITMULT);
-    current_position.x = HMI_ValueStruct.Move_X_scaled / MINUNITMULT;
+    motion_position.x = HMI_ValueStruct.Move_X_scaled / MINUNITMULT;
     DWIN_Draw_Signed_Float(font8x16, Select_Color, 3, UNITFDIGITS, VALUERANGE_X, MBASE(1), HMI_ValueStruct.Move_X_scaled);
     // delay(10); //Solve the problem that two values ​​​​are selected together during rapid rotation.
     // DWIN_UpdateLCD();
