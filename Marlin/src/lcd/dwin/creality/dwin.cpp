@@ -7769,7 +7769,7 @@ void HMI_Prepare()
 #if ANY(HAS_BED_PROBE, BABYSTEPPING)
       checkkey = Homeoffset;
       HMI_ValueStruct.show_mode = -4;
-      HMI_ValueStruct.offset_value = BABY_Z_VAR * 100;
+      HMI_ValueStruct.offset_value = probe.offset.z * 100;
       DWIN_Draw_Signed_Float(font8x16, Select_Color, 2, 2, VALUERANGE_X - 14, MBASE(PREPARE_CASE_ZOFF + MROWS - index_prepare), HMI_ValueStruct.offset_value);
       EncoderRate.enabled = true;
 #else
@@ -10371,7 +10371,8 @@ void HMI_ThumbTune() {
       #if ANY(HAS_BED_PROBE, BABYSTEPPING)
       HMI_flag.Refresh_bottom_flag = true;
       checkkey = ThumbHomeoffset;
-      HMI_ValueStruct.offset_value = BABY_Z_VAR * 100;
+      HMI_ValueStruct.offset_value = probe.offset.z * 100;
+      probe.offset.z = (float)HMI_ValueStruct.offset_value / 100.0f;
       DWIN_Draw_Signed_Float(font8x16, Select_Color, 2, 2, VALUERANGE_X - 14, THUMB_MBASE(TUNE_CASE_ZOFF + ThumbMROWS - thumb_index_tune), HMI_ValueStruct.offset_value);
       EncoderRate.enabled = true;
       #else
@@ -10491,7 +10492,7 @@ void HMI_Tune()
     case TUNE_CASE_ZOFF: // With offset
 #if ANY(HAS_BED_PROBE, BABYSTEPPING)
       checkkey = Homeoffset;
-      HMI_ValueStruct.offset_value = BABY_Z_VAR * 100;
+      HMI_ValueStruct.offset_value = probe.offset.z * 100;
       DWIN_Draw_Signed_Float(font8x16, Select_Color, 2, 2, VALUERANGE_X - 14, MBASE(TUNE_CASE_ZOFF + MROWS - index_tune), HMI_ValueStruct.offset_value);
       EncoderRate.enabled = true;
 #else
