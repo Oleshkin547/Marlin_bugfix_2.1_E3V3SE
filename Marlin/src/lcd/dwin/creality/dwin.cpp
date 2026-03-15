@@ -287,15 +287,15 @@ void Draw_Leveling_Highlight(const bool sel)
 static void pause_resume_feedstock(uint16_t _distance, uint16_t _feedRate)
 {
   char cmd[20], str_1[16];
-  current_position.e += _distance;
-  line_to_current_position(feedRate_t(_feedRate));
-  current_position[E_AXIS] -= _distance;
+  motion.position[E_AXIS] += _distance;
+  motion.goto_current_position(feedRate_t(_feedRate));
+  motion.position[E_AXIS] -= _distance;
   memset(cmd, 0, sizeof(cmd));
-  sprintf_P(cmd, PSTR("G92.9E%s"), dtostrf(current_position[E_AXIS], 1, 3, str_1));
+  sprintf_P(cmd, PSTR("G92.9E%s"), dtostrf(motion.position[E_AXIS], 1, 3, str_1));
   gcode.process_subcommands_now(cmd);
   memset(cmd, 0, sizeof(cmd));
   // Resume the feedrate
-  sprintf_P(cmd, PSTR("G1F%d"), MMS_TO_MMM(feedrate_mm_s));
+  sprintf_P(cmd, PSTR("G1 F%d"), int(MMS_TO_MMM(motion.feedrate_mm_s) + 0.5f));
   gcode.process_subcommands_now(cmd);
 }
 
