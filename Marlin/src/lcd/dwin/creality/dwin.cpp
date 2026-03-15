@@ -302,56 +302,52 @@ static void pause_resume_feedstock(uint16_t _distance, uint16_t _feedRate)
 void In_out_feedtock_level(uint16_t _distance, uint16_t _feedRate, bool dir)
 {
   char cmd[20]; //str_1[16];
-  float olde = current_position.e, differ_value = 0;
-  if (current_position.e < _distance)
-    differ_value = (_distance - current_position.e);
-  else
-    differ_value = 0;
+  const float olde = motion.position.e;
   if (dir)
   {
-    current_position.e += _distance;
-    line_to_current_position(_feedRate);
+    motion.position.e += _distance;
+    motion.goto_current_position(feedRate_t(_feedRate));
   }
   else // Withdraw
   {
-    current_position.e -= _distance;
-    line_to_current_position(_feedRate);
+    motion.position.e -= _distance;
+    motion.goto_current_position(feedRate_t(_feedRate));
   }
-  current_position.e = olde;
+  motion.position.e = olde;
   planner.set_e_position_mm(olde);
   planner.synchronize();
-  sprintf_P(cmd, PSTR("G1 F%s"), getStr(feedrate_mm_s)); // Set original speed
+  sprintf_P(cmd, PSTR("G1 F%s"), getStr(motion.feedrate_mm_s)); // Set original speed
   gcode.process_subcommands_now(cmd);
 }
 
 void In_out_feedtock(uint16_t _distance, uint16_t _feedRate, bool dir)
 {
   char cmd[20]; //str_1[16];
-  float olde = current_position.e, differ_value = 0;
-  if (current_position.e < _distance)
-    differ_value = (_distance - current_position.e);
+  float olde = motion.position.e, differ_value = 0;
+  if (motion.position.e < _distance)
+    differ_value = (_distance - motion.position.e);
   else
     differ_value = 0;
   if (dir)
   {
-    current_position.e += _distance;
-    line_to_current_position(_feedRate);
+    motion.position.e += _distance;
+    motion.goto_current_position(feedRate_t(_feedRate));
   }
   else // Withdraw
   {
     if (differ_value)
     {
-      current_position.e += differ_value;
-      line_to_current_position(FEEDING_DEF_SPEED); // The speed is too fast and there is noise
+      motion.position.e += differ_value;
+      motion.goto_current_position(feedRate_t(FEEDING_DEF_SPEED)); // The speed is too fast and there is noise
       planner.synchronize();
     }
-    current_position.e -= _distance;
-    line_to_current_position(_feedRate);
+    motion.position.e -= _distance;
+    motion.goto_current_position(feedRate_t(_feedRate));
   }
-  current_position.e = olde;
+  motion.position.e = olde;
   planner.set_e_position_mm(olde);
   planner.synchronize();
-  sprintf_P(cmd, PSTR("G1 F%s"), getStr(feedrate_mm_s)); // Set original speed
+  sprintf_P(cmd, PSTR("G1 F%s"), getStr(motion.feedrate_mm_s)); // Set original speed
   gcode.process_subcommands_now(cmd);
   // RUN_AND_WAIT_GCODE_CMD(cmd, true);                  //Rock_20230821
 }
