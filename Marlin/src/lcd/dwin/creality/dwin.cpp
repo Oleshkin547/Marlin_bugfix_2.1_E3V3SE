@@ -3785,11 +3785,11 @@ void HMI_Move_X()
       return HMI_Move_Done(X_AXIS);
     }
     LIMIT(HMI_ValueStruct.Move_X_scaled, (XY_BED_MIN_ZERO)*MINUNITMULT, (X_BED_SIZE)*MINUNITMULT);
-    motion.current.x = HMI_ValueStruct.Move_X_scaled / MINUNITMULT;
+    motion.position.x = HMI_ValueStruct.Move_X_scaled / MINUNITMULT;
     DWIN_Draw_Signed_Float(font8x16, Select_Color, 3, UNITFDIGITS, VALUERANGE_X, MBASE(1), HMI_ValueStruct.Move_X_scaled);
     // delay(10); //Solve the problem that two values ​​​​are selected together during rapid rotation.
     // DWIN_UpdateLCD();
-    HMI_Plan_Move(homing_feedrate(X_AXIS));
+    HMI_Plan_Move(motion.homing_feedrate(X_AXIS));
   }
 }
 
@@ -3804,11 +3804,11 @@ void HMI_Move_Y()
       return HMI_Move_Done(Y_AXIS);
     }
     LIMIT(HMI_ValueStruct.Move_Y_scaled, (XY_BED_MIN_ZERO)*MINUNITMULT, (Y_BED_SIZE)*MINUNITMULT);
-    motion.current.y = HMI_ValueStruct.Move_Y_scaled / MINUNITMULT;
+    motion.position.y = HMI_ValueStruct.Move_Y_scaled / MINUNITMULT;
     DWIN_Draw_Signed_Float(font8x16, Select_Color, 3, UNITFDIGITS, VALUERANGE_X, MBASE(2), HMI_ValueStruct.Move_Y_scaled);
     // delay(10); //Solve the problem that two values ​​​​are selected together during rapid rotation.
     // DWIN_UpdateLCD();
-    HMI_Plan_Move(homing_feedrate(Y_AXIS));
+    HMI_Plan_Move(motion.homing_feedrate(Y_AXIS));
   }
 }
 
@@ -3825,12 +3825,12 @@ void HMI_Move_Z()
     }
     // rock_20211025 Modified axis movement interface cannot move to negative values to prevent collisions
     LIMIT(HMI_ValueStruct.Move_Z_scaled, (Z_MIN_POS)*MINUNITMULT, (Z_MAX_POS)*MINUNITMULT);
-    motion.current.z = HMI_ValueStruct.Move_Z_scaled / MINUNITMULT;
+    motion.position.z = HMI_ValueStruct.Move_Z_scaled / MINUNITMULT;
 
     DWIN_Draw_Signed_Float(font8x16, Select_Color, 3, UNITFDIGITS, VALUERANGE_X, MBASE(3), HMI_ValueStruct.Move_Z_scaled);
     // delay(10); //Solve the problem that two values ​​​​are selected together during rapid rotation.
     // DWIN_UpdateLCD();
-    HMI_Plan_Move(homing_feedrate(Z_AXIS));
+    HMI_Plan_Move(motion.homing_feedrate(Z_AXIS));
   }
 }
 
@@ -3849,7 +3849,7 @@ void HMI_Move_E()
       return HMI_Move_Done(E_AXIS);
     }
     LIMIT(HMI_ValueStruct.Move_E_scaled, last_E_scaled - (EXTRUDE_MAXLENGTH_e)*MINUNITMULT, last_E_scaled + (EXTRUDE_MAXLENGTH_e)*MINUNITMULT);
-    current_position.e = HMI_ValueStruct.Move_E_scaled / MINUNITMULT;
+    motion.position.e = HMI_ValueStruct.Move_E_scaled / MINUNITMULT;
     DWIN_Draw_Signed_Float(font8x16, Select_Color, 3, UNITFDIGITS, VALUERANGE_X, MBASE(4), HMI_ValueStruct.Move_E_scaled);
     delay(10); // Solve the problem that rapid rotation will select two values ​​​​together.
     // DWIN_UpdateLCD();
