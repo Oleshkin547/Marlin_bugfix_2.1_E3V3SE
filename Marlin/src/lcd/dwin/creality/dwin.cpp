@@ -3634,11 +3634,11 @@ void Goto_PrintProcess()
   // Entry: printing; printing time; remaining time
   Draw_Printing_Screen();
   // Setting interface
-  ICON_Tune();
-  if (printingIsPaused() && !HMI_flag.cloud_printing_flag)
+    ICON_Tune();
+  if (marlin.printingIsPaused() && !HMI_flag.cloud_printing_flag)
     ICON_Continue();
   // pause
-  if (printingIsPaused())
+  if (marlin.printingIsPaused())
   {
     Show_JPN_pause_title(); // show title
     ICON_Continue();
