@@ -4467,7 +4467,7 @@ void HMI_PrintSpeed()
     if (Apply_Encoder(encoder_diffState, HMI_ValueStruct.print_speed))
     {
       EncoderRate.enabled = false;
-      feedrate_percentage = HMI_ValueStruct.print_speed;
+      motion.feedrate_percentage = HMI_ValueStruct.print_speed;
 
       #if ENABLED(DWIN_RENDER_THUMBNAIL)
         if(hasThumbnail){
