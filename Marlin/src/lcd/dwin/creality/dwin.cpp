@@ -4049,10 +4049,14 @@ void HMI_Zoffset()
     LIMIT(HMI_ValueStruct.offset_value, (PROBE_OFFSET_ZMIN) * 100, (PROBE_OFFSET_ZMAX) * 100);
     last_zoffset = dwin_zoffset;
     dwin_zoffset = HMI_ValueStruct.offset_value / 100.0f;
+
 #if ANY(BABYSTEP_ZPROBE_OFFSET, JUST_BABYSTEP)
-    // if (BABYSTEP_ALLOWED()) babystep.add_mm(Z_AXIS, dwin_zoffset -last_zoffset);   //rock_20220214
-    // serialprintPGM("d:babystep\n");
     babystep.add_mm(Z_AXIS, dwin_zoffset - last_zoffset);
+    
+    // ДОБАВЬ ЭТО: чтобы офсет в памяти менялся вместе с бебистепом
+    #if HAS_BED_PROBE
+      probe.offset.z = dwin_zoffset; 
+    #endif
 #endif
     #if ENABLED(DWIN_RENDER_THUMBNAIL)
       if(hasThumbnail){
