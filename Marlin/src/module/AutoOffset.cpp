@@ -841,9 +841,11 @@ bool getZOffset(bool isNozzleClr, bool isRunProByPress, bool isRunProByTouch, fl
   // Final robust estimate (median fallback internal)
 
 #endif
-
+  
+#if ANY(X_ROUTINE_AUTO_OFFSET, D_ROUTINE_AUTO_OFFSET)
   *outOffset = robust_offset_from_points(vals, valid_pts, vcount);
-
+#endif
+  
 #if ENABLED(X_ROUTINE_AUTO_OFFSET)
     SERIAL_ECHOLNPGM_P("=== Z Offset Measurement Completed (5 points) ===");
     SERIAL_ECHOLNPGM("OUTPUT_ZOFFSET(5pt ROBUST): ", *outOffset);
