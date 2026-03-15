@@ -4034,14 +4034,14 @@ void HMI_Zoffset()
       #if ENABLED(DWIN_RENDER_THUMBNAIL)
         if(hasThumbnail){
           checkkey = HMI_ValueStruct.show_mode == -4 ? Prepare : ThumbTune;
-          DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 2, 2, VALUERANGE_X - 14, THUMB_MBASE(zoff_line), TERN(HAS_BED_PROBE, BABY_Z_VAR * 100, HMI_ValueStruct.offset_value));
+          DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 2, 2, VALUERANGE_X - 14, THUMB_MBASE(zoff_line), TERN(HAS_BED_PROBE, probe.offset.z * 100, HMI_ValueStruct.offset_value));
         }else{
           checkkey = HMI_ValueStruct.show_mode == -4 ? Prepare : Tune;
-          DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 2, 2, VALUERANGE_X - 14, MBASE(zoff_line), TERN(HAS_BED_PROBE, BABY_Z_VAR * 100, HMI_ValueStruct.offset_value));
+          DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 2, 2, VALUERANGE_X - 14, MBASE(zoff_line), TERN(HAS_BED_PROBE, probe.offset.z * 100, HMI_ValueStruct.offset_value));
         }  
       #else    
         checkkey = HMI_ValueStruct.show_mode == -4 ? Prepare : Tune;
-        DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 2, 2, VALUERANGE_X - 14, MBASE(zoff_line), TERN(HAS_BED_PROBE, BABY_Z_VAR * 100, HMI_ValueStruct.offset_value));
+        DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 2, 2, VALUERANGE_X - 14, MBASE(zoff_line), TERN(HAS_BED_PROBE, probe.offset.z * 100, HMI_ValueStruct.offset_value));
       #endif  
       DWIN_UpdateLCD();
       return;
