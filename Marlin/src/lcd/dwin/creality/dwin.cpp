@@ -8220,7 +8220,7 @@ void HMI_Levling_Change()
       dwin_zoffset_edit = HMI_ValueStruct.Temp_Leveling_Value / 100.0f;
       temp_zoffset_single += (dwin_zoffset_edit - last_zoffset_edit);
       // babystep.add_mm(Z_AXIS, dwin_zoffset_edit -last_zoffset_edit);
-      DO_BLOCKING_MOVE_TO_Z(dwin_zoffset_edit, 5);
+      DO_BLOCKING_MOVE_TO_Z(current_position.z + (dwin_zoffset_edit - last_zoffset_edit), 5);
       DWIN_Draw_Z_Offset_Float(font6x12, Color_White, Select_Color, 1, 2, value_LU_x, value_LU_y, HMI_ValueStruct.Temp_Leveling_Value); // Upper left corner coordinates
       // Draw_Dots_On_Screen(&mesh_Count,2,Select_Color); //Set the font background color without changing the selected block color
     }
