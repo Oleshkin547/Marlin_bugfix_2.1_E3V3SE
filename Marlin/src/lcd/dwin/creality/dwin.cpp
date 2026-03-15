@@ -2079,7 +2079,7 @@ void Item_Tune_Speed(const uint8_t row)
     DWIN_ICON_Show(HMI_flag.language, LANGUAGE_PrintSpeed, 42, MBASE(row) + JPN_OFFSET);
 #endif
     Draw_Menu_Line(row, ICON_Speed);
-    DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(row) + PRINT_SET_OFFSET, feedrate_percentage);
+    DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(row) + PRINT_SET_OFFSET, motion.feedrate_percentage);
   }
 }
 
