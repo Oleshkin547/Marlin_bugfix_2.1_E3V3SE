@@ -60,9 +60,9 @@ lin 3D Printer Firmware
 #endif
 // Исправление ошибки линковки CZ_AFTER_HOMING
 #if HAS_Z_HOME_OFFSET
-  float CZ_AFTER_HOMING = 10.0f; 
+  uint8_t CZ_AFTER_HOMING = 10;
 #else
-  float CZ_AFTER_HOMING = 10.0f;
+  uint8_t CZ_AFTER_HOMING = 10;
 #endif
 
 #if HAS_BED_PROBE
