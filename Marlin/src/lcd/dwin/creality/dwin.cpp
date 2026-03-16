@@ -11418,7 +11418,7 @@ void EachMomentUpdate()
       }
 #endif
     }
-    else if (HMI_flag.pause_flag != printingIsPaused())
+    else if (HMI_flag.pause_flag != marlin.printingIsPaused())
     {
       // print status update
       HMI_flag.pause_flag = printingIsPaused();
