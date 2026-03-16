@@ -9953,7 +9953,7 @@ void HMI_HomeOffN(const AxisEnum axis, float &posScaled, const_float_t lo, const
     {
       checkkey = HomeOff;
       EncoderRate.enabled = false;
-      set_home_offset(axis, posScaled / 10);
+      motion.set_home_offset(axis, posScaled / 10);
       DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 3, 1, VALUERANGE_X, MBASE(select_item.now), posScaled);
       return;
     }
