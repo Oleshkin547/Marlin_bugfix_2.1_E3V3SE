@@ -6803,7 +6803,7 @@ void HMI_Filament()
       HMI_flag.disallow_recovery_flag = true;
       // Rock 20211017
       queue.clear();
-      quickstop_stepper();
+      planner.quick_stop();
       print_job_timer.stop();
       thermalManager.disable_all_heaters();
       print_job_timer.reset();
