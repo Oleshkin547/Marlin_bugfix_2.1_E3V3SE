@@ -73,7 +73,12 @@ extern int16_t feedrate_percentage;
 extern xyz_pos_t current_position;
 extern bool wait_for_heatup;
 extern bool wait_for_user;
-#define CZ_AFTER_HOMING Z_AFTER_HOMING
+// Исправление ошибки линковки CZ_AFTER_HOMING
+#if HAS_Z_HOME_OFFSET
+  float CZ_AFTER_HOMING = 10.0f;
+#else
+  float CZ_AFTER_HOMING = 10.0f;
+#endif
 extern int16_t feedrate_percentage;
 #include "../../../inc/MarlinConfig.h"
 
