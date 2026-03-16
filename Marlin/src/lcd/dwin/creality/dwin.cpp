@@ -8039,12 +8039,9 @@ void HMI_Control()
       select_temp.reset();
       Draw_Temperature_Menu();
       break;
-case CONTROL_CASE_MOVE: 
-      {
-        checkkey = (int)::Motion; 
-        select_motion.reset();
-        Draw_Motion_Menu();
-      }
+case CONTROL_CASE_MOVE:
+      select_motion.reset();
+      Draw_Motion_Menu();
       break;
 #if ENABLED(EEPROM_SETTINGS)
    case CONTROL_CASE_MOVE: 
