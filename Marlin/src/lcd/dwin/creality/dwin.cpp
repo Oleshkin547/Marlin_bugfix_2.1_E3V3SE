@@ -8039,10 +8039,13 @@ void HMI_Control()
       select_temp.reset();
       Draw_Temperature_Menu();
       break;
-      case CONTROL_CASE_MOVE: // Motion
-      checkkey = Motion;
-      select_motion.reset();
-      Draw_Motion_Menu();
+case CONTROL_CASE_MOVE: 
+      {
+        const int motion_index = 2;
+        checkkey = (HMI_CheckKey)motion_index;
+        select_motion.reset();
+        Draw_Motion_Menu();
+      }
       break;
 #if ENABLED(EEPROM_SETTINGS)
     case CONTROL_CASE_SAVE:
