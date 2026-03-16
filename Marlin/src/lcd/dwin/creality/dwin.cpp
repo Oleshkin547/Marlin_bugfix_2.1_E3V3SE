@@ -8287,7 +8287,7 @@ void HMI_AxisMove()
       HMI_ValueStruct.Move_X_scaled = current_position.x * MINUNITMULT; // Rock 20210827
       HMI_ValueStruct.Move_Y_scaled = current_position.y * MINUNITMULT; // Rock 20210827
       HMI_ValueStruct.Move_Z_scaled = current_position.z * MINUNITMULT;
-      HMI_ValueStruct.Move_E_scaled = current_position.e * MINUNITMULT;
+      HMI_ValueStruct.Move_E_scaled = current_position[E_AXIS] * MINUNITMULT;
       Draw_Move_Menu();
       // DWIN_Draw_FloatValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, 1, VALUERANGE_X, MBASE(1), HMI_ValueStruct.Move_X_scaled);
       DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 3, UNITFDIGITS, VALUERANGE_X, MBASE(1), HMI_ValueStruct.Move_X_scaled);
