@@ -8040,7 +8040,7 @@ void HMI_Control()
       Draw_Temperature_Menu();
       break;
       case CONTROL_CASE_MOVE: // Motion
-      checkkey = (long)Motion;
+     checkkey = (HMI_CheckKey)2;
       select_motion.reset();
       Draw_Motion_Menu();
       break;
