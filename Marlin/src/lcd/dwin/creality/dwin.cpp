@@ -4851,7 +4851,6 @@ void _update_axis_value(const AxisEnum axis, const uint16_t x, const uint16_t y,
       DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 3, 1, x, y, p * 10);
   }
 }
-
 void _draw_xyz_position(const bool force)
 {
   // SERIAL_ECHOPGM("Draw XYZ:");
