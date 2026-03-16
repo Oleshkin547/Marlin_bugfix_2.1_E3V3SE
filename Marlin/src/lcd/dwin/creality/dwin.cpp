@@ -11421,7 +11421,7 @@ void EachMomentUpdate()
     else if (HMI_flag.pause_flag != marlin.printingIsPaused())
     {
       // print status update
-      HMI_flag.pause_flag = printingIsPaused();
+      HMI_flag.pause_flag = marlin.printingIsPaused();
       if (!HMI_flag.filement_resume_flag)
       {
         if (HMI_flag.pause_flag)
@@ -11441,7 +11441,7 @@ void EachMomentUpdate()
   }
 
   // pause after homing
-  if (HMI_flag.pause_action && printingIsPaused() && !planner.has_blocks_queued())
+  if (HMI_flag.pause_action && marlin.printingIsPaused() && !planner.has_blocks_queued())
   {
     if (!HMI_flag.cutting_line_flag)
     {
@@ -11458,14 +11458,14 @@ void EachMomentUpdate()
     }
   }
   // Whether online printing is paused
-  if (HMI_flag.online_pause_flag && printingIsPaused() && !planner.has_blocks_queued())
+  if (HMI_flag.online_pause_flag && marlin.printingIsPaused() && !planner.has_blocks_queued())
   {
     HMI_flag.online_pause_flag = false;
     queue.inject_P(PSTR("G1 F1200 X0 Y0"));
   }
 
   // cutting after homing
-  if (HMI_flag.remove_card_flag && printingIsPaused() && !planner.has_blocks_queued())
+  if (HMI_flag.remove_card_flag && marlin.printingIsPaused() && !planner.has_blocks_queued())
   {
 // HMI_flag.remove_card_flag = false;
 #if ENABLED(PAUSE_HEAT)
@@ -11485,7 +11485,7 @@ void EachMomentUpdate()
   }
 
   // cutting after homing  || HMI_flag.cloud_printing_flag
-  if (HMI_flag.cutting_line_flag && printingIsPaused() && (!planner.has_blocks_queued() || HMI_flag.filement_resume_flag))
+  if (HMI_flag.cutting_line_flag && marlin.printingIsPaused() && (!planner.has_blocks_queued() || HMI_flag.filement_resume_flag))
   {
     // Prevent hmi flag.filement resume flag from being set to 1 and continue to wait for the planner to be empty.
     if (!planner.has_blocks_queued())
