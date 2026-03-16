@@ -7649,7 +7649,7 @@ void HMI_Prepare()
       DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 3, UNITFDIGITS, VALUERANGE_X, MBASE(2), current_position.y * MINUNITMULT);
       DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 3, UNITFDIGITS, VALUERANGE_X, MBASE(3), current_position.z * MINUNITMULT);
 #if HAS_HOTEND
-      HMI_ValueStruct.Move_E_scaled = current_position.e * MINUNITMULT;
+      HMI_ValueStruct.Move_E_scaled = current_position.e_view() * MINUNITMULT;
       DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 3, 1, VALUERANGE_X, MBASE(4), HMI_ValueStruct.Move_E_scaled);
 #endif
 
