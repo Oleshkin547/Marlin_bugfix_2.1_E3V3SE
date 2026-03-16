@@ -8044,7 +8044,7 @@ case CONTROL_CASE_MOVE:
       Draw_Motion_Menu();
       break;
 #if ENABLED(EEPROM_SETTINGS)
-    case CONTROL_CASE_STORE:  // Исправлено: сохранение в EEPROM вместо дубля движения
+    case CONTROL_CASE_SAVE:  // Исправлено: сохранение в EEPROM вместо дубля движения
       {
         const bool success = settings.save();
         HMI_AudioFeedback(success);
