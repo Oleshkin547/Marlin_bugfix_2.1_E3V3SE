@@ -10754,7 +10754,7 @@ void HMI_MaxSpeed()
     else
     {
       // Back
-      checkkey = Motion;
+      checkkey = MotionMenu;
       select_motion.now = MOTION_CASE_RATE;
       Draw_Motion_Menu();
     }
@@ -10793,7 +10793,7 @@ void HMI_MaxAcceleration()
     else
     {
       // Back
-      checkkey = Motion;
+      checkkey = MotionMenu;
       select_motion.now = MOTION_CASE_ACCEL;
       Draw_Motion_Menu();
     }
@@ -10826,7 +10826,7 @@ void HMI_MaxAcceleration()
       switch (select_input_shaping.now)
       {
       case 0: // Back
-        checkkey = Motion;
+        checkkey = MotionMenu;
         select_motion.now = MOTION_CASE_INPUT_SHAPING;
         Draw_Motion_Menu();
         break;
@@ -10966,7 +10966,7 @@ void HMI_MaxAcceleration()
 //   switch (select_linear_adv.now)
 //   {
 //   case 0: // Back
-//     checkkey = Motion;
+//     checkkey = MotionMenu;;
 //     select_motion.now = MOTION_CASE_LINADV;
 //     Draw_Motion_Menu();
 //     break;
@@ -11017,7 +11017,7 @@ void HMI_MaxJerk()
     else
     {
       // Back
-      checkkey = Motion;
+      checkkey = MotionMenu;
       select_motion.now = MOTION_CASE_JERK;
       Draw_Motion_Menu();
     }
@@ -11057,7 +11057,7 @@ void HMI_Step()
     else
     {
       // Back
-      checkkey = Motion;
+      checkkey = MotionMenu;
       select_motion.now = MOTION_CASE_STEPS;
       Draw_Motion_Menu();
     }
