@@ -71,6 +71,8 @@ lin 3D Printer Firmware
 #include "../../../module/AutoOffset.h"
 extern int16_t feedrate_percentage;
 extern xyz_pos_t current_position;
+extern bool wait_for_heatup;
+extern bool wait_for_user;
 
 // #include <QRCodeGenerator.h>
 
