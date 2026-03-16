@@ -8039,8 +8039,8 @@ void HMI_Control()
       select_temp.reset();
       Draw_Temperature_Menu();
       break;
-    case CONTROL_CASE_MOVE: // Motion
-      checkkey = Motion;
+      case CONTROL_CASE_MOVE: // Motion
+      checkkey = (long)Motion;
       select_motion.reset();
       Draw_Motion_Menu();
       break;
