@@ -4833,7 +4833,7 @@ void HMI_AUTO_PID_Value_Set()
 // Draw X, Y, Z and blink if in an un-homed or un-trusted state
 void _update_axis_value(const AxisEnum axis, const uint16_t x, const uint16_t y, const bool blink, const bool force)
 {
-  const bool draw_qmark = !TEST(axis_homed, axis)
+  const bool draw_qmark = axis_should_home(axis),
              draw_empty = NONE(HOME_AFTER_DEACTIVATE, DISABLE_REDUCED_ACCURACY_WARNING) && !draw_qmark && !axis_is_trusted(axis);
 
   // Check for a position change
@@ -4855,6 +4855,7 @@ void _update_axis_value(const AxisEnum axis, const uint16_t x, const uint16_t y,
       DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 3, 1, x, y, p * 10);
   }
 }
+
 void _draw_xyz_position(const bool force)
 {
   // SERIAL_ECHOPGM("Draw XYZ:");
