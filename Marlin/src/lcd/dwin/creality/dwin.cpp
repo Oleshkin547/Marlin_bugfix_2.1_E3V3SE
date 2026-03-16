@@ -75,12 +75,12 @@ extern int16_t feedrate_percentage;
 #define current_position motion.current
 extern bool wait_for_heatup;
 extern bool wait_for_user;
-// Исправление ошибки линковки CZ_AFTER_HOMING
+// Исправление ошибок линковки
 uint8_t CZ_AFTER_HOMING = 10; 
 int16_t feedrate_percentage = 100;
 bool wait_for_user = false;
 bool wait_for_heatup = false;
-xyz_pos_t current_position; // Добавь вот эту строку
+xyz_pos_t current_position = { 0, 0, 0 };
 #include "../../../inc/MarlinConfig.h"
 
 // #include <QRCodeGenerator.h>
