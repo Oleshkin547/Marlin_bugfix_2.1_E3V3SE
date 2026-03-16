@@ -8039,25 +8039,26 @@ void HMI_Control()
       select_temp.reset();
       Draw_Temperature_Menu();
       break;
-case CONTROL_CASE_MOVE:
+case CONTROL_CASE_MOVE: 
       select_motion.reset();
       Draw_Motion_Menu();
       break;
+
 #if ENABLED(EEPROM_SETTINGS)
-   case CONTROL_CASE_MOVE: 
+    case CONTROL_CASE_STORE:  // Исправлено: сохранение в EEPROM вместо дубля движения
       {
-        checkkey = (int)2;
-        select_motion.reset();
-        Draw_Motion_Menu();
+        const bool success = settings.save();
+        HMI_AudioFeedback(success);
       }
       break;
+#endif
+
     case CONTROL_CASE_LOAD:
-    {
-      // Read EEPROM
-      const bool success = settings.load();
-      HMI_AudioFeedback(success);
-    }
-    break;
+      {
+        const bool success = settings.load();
+        HMI_AudioFeedback(success);
+      }
+      break;
 // #if HAS_LEVELING
 //     case CONTROL_CASE_SHOW_DATA:
 //       HMI_flag.G29_finish_flag = true;
