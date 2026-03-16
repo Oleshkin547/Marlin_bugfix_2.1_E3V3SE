@@ -9848,9 +9848,9 @@ void HMI_AdvSet()
     case ADVSET_CASE_HOMEOFF: // Home Offsets
       checkkey = HomeOff;
       select_item.reset();
-HMI_ValueStruct.Home_OffX_scaled = Homeoffset[X_AXIS] * 10;
-HMI_ValueStruct.Home_OffY_scaled = Homeoffset[Y_AXIS] * 10;
-HMI_ValueStruct.Home_OffZ_scaled = Homeoffset[Z_AXIS] * 10;
+      HMI_ValueStruct.Home_OffX_scaled = motion.home_offset[X_AXIS] * 10;
+      HMI_ValueStruct.Home_OffY_scaled = motion.home_offset[Y_AXIS] * 10;
+      HMI_ValueStruct.Home_OffZ_scaled = motion.home_offset[Z_AXIS] * 10;
       Draw_HomeOff_Menu();
       break;
 #endif
