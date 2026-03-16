@@ -73,6 +73,9 @@ extern int16_t feedrate_percentage;
 extern xyz_pos_t current_position;
 extern bool wait_for_heatup;
 extern bool wait_for_user;
+#define CZ_AFTER_HOMING Z_AFTER_HOMING
+extern int16_t feedrate_percentage;
+#include "../../../core/marlincore.h"
 
 // #include <QRCodeGenerator.h>
 
@@ -5394,7 +5397,7 @@ void HMI_SDCardUpdate()
       #if ENABLED(DWIN_RENDER_THUMBNAIL)
         else if (checkkey == PrintProcess || checkkey == Tune || checkkey == ThumbPrint || checkkey == ThumbTune || printingIsActive())
       #else
-        else if (checkkey == PrintProcess || checkkey == Tune || planner.has_blocks_queued() || card.isPrinting())
+        else if (checkkey == PrintProcess || checkkey == Tune || marlin.printingIsActive())
       #endif
       {
         // TODO: Move card removed abort handling
@@ -6374,7 +6377,7 @@ void HMI_Printing()
         break;
       case 1:
         ICON_Tune();
-        if (card.isPaused())
+        if (marlin.printingIsPaused())
         {
           ICON_Continue();
         }
@@ -6384,7 +6387,7 @@ void HMI_Printing()
         }
         break;
       case 2:
-        if (card.isPaused())
+        if (marlin.printingIsPaused())
         {
 
           ICON_Continue();
@@ -6406,13 +6409,13 @@ void HMI_Printing()
       {
       case 0:
         ICON_Tune();
-        if (card.isPaused())
+        if (marlin.printingIsPaused())
           ICON_Continue();
         else
           ICON_Pause();
         break;
       case 1:
-        if (card.isPaused())
+        if (marlin.printingIsPaused())
           ICON_Continue();
         else
           ICON_Pause();
