@@ -80,6 +80,7 @@ uint8_t CZ_AFTER_HOMING = 10;
 int16_t feedrate_percentage = 100;
 bool wait_for_user = false;
 bool wait_for_heatup = false;
+xyz_pos_t current_position; // Добавь вот эту строку
 #include "../../../inc/MarlinConfig.h"
 
 // #include <QRCodeGenerator.h>
