@@ -8358,7 +8358,7 @@ void HMI_AxisMove()
       }
 #endif
       checkkey = Extruder;
-      HMI_ValueStruct.Move_E_scaled = current_position.e * MINUNITMULT;
+      HMI_ValueStruct.Move_E_scaled = current_position[E_AXIS] * MINUNITMULT;
       DWIN_Draw_Signed_Float(font8x16, Select_Color, 3, 1, VALUERANGE_X, MBASE(4), HMI_ValueStruct.Move_E_scaled);
       EncoderRate.enabled = true;
       break;
