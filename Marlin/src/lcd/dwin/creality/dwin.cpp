@@ -8043,15 +8043,13 @@ case CONTROL_CASE_MOVE:
       select_motion.reset();
       Draw_Motion_Menu();
       break;
-
 #if ENABLED(EEPROM_SETTINGS)
     case CONTROL_CASE_STORE:  // Исправлено: сохранение в EEPROM вместо дубля движения
       {
         const bool success = settings.save();
         HMI_AudioFeedback(success);
       }
-      break;
-#endif
+      break:
 
     case CONTROL_CASE_LOAD:
       {
