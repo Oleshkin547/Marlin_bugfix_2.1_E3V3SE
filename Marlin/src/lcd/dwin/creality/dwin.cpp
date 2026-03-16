@@ -75,7 +75,7 @@ extern bool wait_for_heatup;
 extern bool wait_for_user;
 #define CZ_AFTER_HOMING Z_AFTER_HOMING
 extern int16_t feedrate_percentage;
-#include "../../../core/marlincore.h"
+#include "../../../inc/MarlinConfig.h"
 
 // #include <QRCodeGenerator.h>
 
