@@ -1329,7 +1329,8 @@ static void Draw_Nozzle_Temp_Label(const bool is_sel = true)
   DWIN_ICON_Show(HMI_flag.language, LANGUAGE_Hotend, 42, MBASE(0) + JPN_OFFSET);
 }
 
-inline bool Apply_Encoder(const ENCODER_DiffState &encoder_diffState, float &valref)
+template<typename T>
+inline bool Apply_Encoder(const ENCODER_DiffState &encoder_diffState, T &valref)
 {
   bool temp_var = false;
   if (encoder_diffState == ENCODER_DIFF_CW)
@@ -3985,7 +3986,10 @@ void HMI_ETemp()
     #endif    
     }
 
-    if (Apply_Encoder(encoder_diffState, HMI_ValueStruct.E_Temp))
+    float temp_val = HMI_ValueStruct.E_Temp; // Создаем временную переменную
+    if (Apply_Encoder(encoder_diffState, temp_val)) { // Передаем её в функцию
+    HMI_ValueStruct.E_Temp = temp_val; // Записываем результат обратно
+      }
     {
       EncoderRate.enabled = false;
       // E_Temp limit
