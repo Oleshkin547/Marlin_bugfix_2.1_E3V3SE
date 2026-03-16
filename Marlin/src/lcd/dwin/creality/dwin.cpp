@@ -5392,7 +5392,7 @@ void HMI_SDCardUpdate()
       #if ENABLED(DWIN_RENDER_THUMBNAIL)
         else if (checkkey == PrintProcess || checkkey == Tune || checkkey == ThumbPrint || checkkey == ThumbTune || printingIsActive())
       #else
-        else if (checkkey == PrintProcess || checkkey == Tune || planner.is_dirty() || card.isPrinting())
+        else if (checkkey == PrintProcess || checkkey == Tune || planner.has_blocks_queued() || card.isPrinting())
       #endif
       {
         // TODO: Move card removed abort handling
