@@ -6372,7 +6372,7 @@ void HMI_Printing()
         break;
       case 1:
         ICON_Tune();
-        if (printingIsPaused())
+        if (card.isPaused())
         {
           ICON_Continue();
         }
