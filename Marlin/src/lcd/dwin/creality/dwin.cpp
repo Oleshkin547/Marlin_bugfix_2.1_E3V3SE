@@ -12078,7 +12078,7 @@ void DWIN_HandleScreen()
   case TemperatureID:
     HMI_Temperature();
     break;
-  case Motion:
+  case MotionMenu:
     HMI_Motion();
     break;
   case AdvSet:
