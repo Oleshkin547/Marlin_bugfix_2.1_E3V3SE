@@ -74,8 +74,10 @@ extern xyz_pos_t current_position;
 extern bool wait_for_heatup;
 extern bool wait_for_user;
 // Исправление ошибки линковки CZ_AFTER_HOMING
-uint8_t CZ_AFTER_HOMING = 10;
-extern int16_t feedrate_percentage;
+uint8_t CZ_AFTER_HOMING = 10; 
+int16_t feedrate_percentage = 100;
+bool wait_for_user = false;
+bool wait_for_heatup = false;
 #include "../../../inc/MarlinConfig.h"
 
 // #include <QRCodeGenerator.h>
