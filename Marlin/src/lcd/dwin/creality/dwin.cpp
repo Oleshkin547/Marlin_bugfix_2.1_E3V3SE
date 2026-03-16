@@ -8049,7 +8049,7 @@ case CONTROL_CASE_MOVE:
         const bool success = settings.save();
         HMI_AudioFeedback(success);
       }
-      break:
+      break;
 
     case CONTROL_CASE_LOAD:
       {
