@@ -72,7 +72,6 @@ lin 3D Printer Firmware
 extern int16_t feedrate_percentage;
 // Создаем мост для координат, чтобы экран их видел
 #include "../../../module/motion.h"
-#define current_position motion.current
 extern bool wait_for_heatup;
 extern bool wait_for_user;
 // Исправление ошибок линковки
