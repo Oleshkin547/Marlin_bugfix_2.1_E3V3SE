@@ -4989,7 +4989,8 @@ void update_variable()
 #endif
 
   static int16_t _feedrate = 100;
-  if (_feedrate != feedrate_percentage)
+  extern int16_t feedrate_percentage; // Добавляем эту строку
+  if (_feedrate != feedrate_percentage) 
   {
     _feedrate = feedrate_percentage;
     DWIN_Draw_IntValue(true, true, 0, DWIN_FONT_STAT, Color_White, Color_Bg_Black, 3, 99 + 2 * STAT_CHR_W, 247, _feedrate);
