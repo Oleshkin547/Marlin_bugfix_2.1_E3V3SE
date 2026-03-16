@@ -6404,13 +6404,13 @@ void HMI_Printing()
       {
       case 0:
         ICON_Tune();
-        if card.isPaused()
+        if card.isPaused())
           ICON_Continue();
         else
           ICON_Pause();
         break;
       case 1:
-        if card.isPaused()
+        if card.isPaused())
           ICON_Continue();
         else
           ICON_Pause();
