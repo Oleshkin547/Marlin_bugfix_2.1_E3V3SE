@@ -8048,13 +8048,13 @@ case CONTROL_CASE_MOVE:
       }
       break;
 #if ENABLED(EEPROM_SETTINGS)
-    case CONTROL_CASE_SAVE:
-    {
-      // Write EEPROM
-      const bool success = settings.save();
-      HMI_AudioFeedback(success);
-    }
-    break;
+   case CONTROL_CASE_MOVE: 
+      {
+        checkkey = (int)2;
+        select_motion.reset();
+        Draw_Motion_Menu();
+      }
+      break;
     case CONTROL_CASE_LOAD:
     {
       // Read EEPROM
