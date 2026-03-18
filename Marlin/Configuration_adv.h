@@ -1871,19 +1871,18 @@
   //#define SDCARD_SORT_ALPHA
 
   // SD Card Sorting options
-  #if ENABLED(SDCARD_SORT_ALPHA)
-    #define SDSORT_REVERSE     false  // Default to sorting file names in reverse order.
-    #define SDSORT_LIMIT       40     // Maximum number of sorted items (10-256). Costs 27 bytes each.
-    #define SDSORT_FOLDERS     -1     // -1=above  0=none  1=below
-    #define SDSORT_GCODE       false  // Enable G-code M34 to set sorting behaviors: M34 S<-1|0|1> F<-1|0|1>
-    #define SDSORT_USES_RAM    false  // Pre-allocate a static array for faster pre-sorting.
-    #define SDSORT_USES_STACK  false  // Prefer the stack for pre-sorting to give back some SRAM. (Negated by next 2 options.)
-    #define SDSORT_CACHE_NAMES false  // Keep sorted items in RAM longer for speedy performance. Most expensive option.
-    #define SDSORT_DYNAMIC_RAM false  // Use dynamic allocation (within SD menus). Least expensive option. Set SDSORT_LIMIT before use!
-    #define SDSORT_CACHE_VFATS 2      // Maximum number of 13-byte VFAT entries to use for sorting.
-                                      // Note: Only affects SCROLL_LONG_FILENAMES with SDSORT_CACHE_NAMES but not SDSORT_DYNAMIC_RAM.
-    #define SDSORT_QUICK       true   // Use Quick Sort as a sorting algorithm. Otherwise use Bubble Sort.
-  #endif
+#if ENABLED(SDCARD_SORT_ALPHA)
+    #define SDSORT_REVERSE       false
+    #define SDSORT_LIMIT         40     // Оставляем так
+    #define SDSORT_FOLDERS       -1     // Папки всегда сверху — это удобно
+    #define SDSORT_GCODE         false
+    #define SDSORT_USES_RAM      true   // СТАВИМ true: ускорит сортировку
+    #define SDSORT_USES_STACK    false
+    #define SDSORT_CACHE_NAMES   true   // СТАВИМ true: это ВАЖНО для нормальных длинных имен
+    #define SDSORT_DYNAMIC_RAM   false 
+    #define SDSORT_CACHE_VFATS   25     // УВЕЛИЧИВАЕМ до 25 (было 2): чтобы кэшировать длинные имена
+    #define SDSORT_QUICK         true   
+#endif
 
   // Allow international symbols in long filenames. To display correctly, the
   // LCD's font must contain the characters. Check your selected LCD language.
