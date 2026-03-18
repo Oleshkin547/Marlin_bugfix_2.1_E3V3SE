@@ -5393,21 +5393,10 @@ void HMI_SDCardUpdate()
     }
 else
     {
-      // Обработка извлечения карты (чиним кракозябры)
+      // clean file icon
       if (checkkey == SelectFile)
       {
-        // 1. Стираем старое меню (рисуем прямоугольник цветом фона)
-        // Если Color_Bg_Blue не сработает, попробуй 0x001F (это код синего)
-        DWIN_Draw_Rectangle(1, Color_Bg_Blue, 0, 0, DWIN_WIDTH, DWIN_HEIGHT); 
-        
-        // 2. Пишем текст уведомления
-        DWIN_Draw_String(false, false, font16x32, Color_White, Color_Bg_Blue, (DWIN_WIDTH - 12 * 16) / 2, MBASE(3), F("CARD REMOVED"));
-        
-        // 3. Пауза 1.5 секунды, чтобы сообщение не "моргнуло"
-        delay(1500);
-
-        // 4. Используем твою рабочую функцию для возврата
-        Goto_MainMenu(); 
+        Redraw_SD_List();
       }
 
       #if ENABLED(DWIN_RENDER_THUMBNAIL)
