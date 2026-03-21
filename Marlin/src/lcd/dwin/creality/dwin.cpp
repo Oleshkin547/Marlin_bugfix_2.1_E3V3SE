@@ -10447,7 +10447,7 @@ void HMI_Tune()
     break;
     case TUNE_CASE_SPEED: // Print speed
       checkkey = PrintSpeed;
-      HMI_ValueStruct.print_speed = feedrate_percentage;
+      HMI_ValueStruct.print_speed = motion.feedrate_percentage;
       DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(TUNE_CASE_SPEED + MROWS - index_tune) + PRINT_SET_OFFSET, HMI_ValueStruct.print_speed);
       EncoderRate.enabled = true;
       break;
@@ -10482,7 +10482,7 @@ void HMI_Tune()
     case TUNE_CASE_ZOFF: // With offset
 #if ANY(HAS_BED_PROBE, BABYSTEPPING)
       checkkey = Homeoffset;
-      HMI_ValueStruct.offset_value = BABY_Z_VAR * 100;
+      HMI_ValueStruct.offset_value = probe.offset.z * 100;
       DWIN_Draw_Signed_Float(font8x16, Select_Color, 2, 2, VALUERANGE_X - 14, MBASE(TUNE_CASE_ZOFF + MROWS - index_tune), HMI_ValueStruct.offset_value);
       EncoderRate.enabled = true;
 #else
