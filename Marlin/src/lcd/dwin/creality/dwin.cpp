@@ -3970,14 +3970,8 @@ void HMI_ETemp()
       temp_line = select_temp.now + MROWS - index_temp;
       break;
     case -2:
-      temp_line = PREHEAT_CASE_TEMP;
-      break;
     case -3:
-      temp_line = PREHEAT_CASE_TEMP;
-      break;
     case -7:
-      temp_line = PREHEAT_CASE_TEMP;
-      break;
     case -8:
       temp_line = PREHEAT_CASE_TEMP;
       break;
@@ -3989,7 +3983,6 @@ void HMI_ETemp()
     if (Apply_Encoder(encoder_diffState, HMI_ValueStruct.E_Temp))
     {
       EncoderRate.enabled = false;
-      // E_Temp limit
       LIMIT(HMI_ValueStruct.E_Temp, HEATER_0_MINTEMP, thermalManager.hotend_max_target(0));
       if (HMI_ValueStruct.show_mode == -2)
       {
@@ -4005,7 +3998,6 @@ void HMI_ETemp()
         DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, ui.material_preset[1].hotend_temp);
         return;
       }
-    #if ENABLED(PREHEAT_EXTRA_LABELS)
       else if (HMI_ValueStruct.show_mode == -7)
       {
         checkkey = PETGPreheat;
@@ -4020,8 +4012,7 @@ void HMI_ETemp()
         DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, ui.material_preset[3].hotend_temp);
         return;
       }
-    #endif
-      else if (HMI_ValueStruct.show_mode == -1) // Temperature
+      else if (HMI_ValueStruct.show_mode == -1)
       {
         checkkey = TemperatureID;
         DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
@@ -4031,18 +4022,11 @@ void HMI_ETemp()
         checkkey = Tune;
         DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
       }
-#if ENABLED(USE_SWITCH_POWER_200W)
-      while ((thermalManager.degTargetBed() > 0) && (ABS(thermalManager.degTargetBed() - thermalManager.degBed()) > TEMP_WINDOW))
-      {
-        idle();
-      }
-#endif
       thermalManager.setTargetHotend(HMI_ValueStruct.E_Temp, 0);
       return;
     }
-    // E_Temp limit
+
     LIMIT(HMI_ValueStruct.E_Temp, HEATER_0_MINTEMP, thermalManager.hotend_max_target(0));
-    // E_Temp value
 
     if (0 == HMI_ValueStruct.show_mode)
       DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
@@ -4050,37 +4034,6 @@ void HMI_ETemp()
       DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
   }
 }
-    #if ENABLED(PREHEAT_EXTRA_LABELS)
-      else if (HMI_ValueStruct.show_mode == -7)
-      {
-        checkkey = PETGPreheat;
-        ui.material_preset[2].hotend_temp = HMI_ValueStruct.E_Temp;
-        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, ui.material_preset[2].hotend_temp);
-        return;
-      }
-      else if (HMI_ValueStruct.show_mode == -8)
-      {
-        checkkey = ABSPreheat;
-        ui.material_preset[3].hotend_temp = HMI_ValueStruct.E_Temp;
-        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, ui.material_preset[3].hotend_temp);
-        return;
-      }
-    #endif
-      else if (HMI_ValueStruct.show_mode == -1) // Temperature
-      {
-        checkkey = TemperatureID;
-    #if ENABLED(DWIN_RENDER_THUMBNAIL)
-        if(hasThumbnail){
-          DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, THUMB_MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
-        }else{
-          DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
-        }
-    #else
-        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
-    #endif    
-      }
-      else
-      {
         
     #if ENABLED(DWIN_RENDER_THUMBNAIL)
         if(hasThumbnail){
