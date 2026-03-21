@@ -2349,8 +2349,9 @@ void Draw_Tune_Menu()
 
 
 
-    void Draw_ThumbTune_Menu() {
-      // Draw_ThumbTitle(vvfilename);  
+     void Draw_ThumbTune_Menu() {
+      // Draw_ThumbTitle(vvfilename); 
+      OctoRefresh = false; 
       Clear_Below_Area();
       HMI_flag.Refresh_bottom_flag = true;
       const int16_t Oscroll = ThumbMROWS - thumb_index_tune; // Scrolled-up lines
@@ -2379,9 +2380,7 @@ void Draw_Tune_Menu()
       #if HAS_HEATED_BED
         if (OTVISI(TUNE_CASE_BED))
           Thumb_Item_Tune_Bed(OTSCROL(TUNE_CASE_BED));  // Bed Temp
-      #endif
 
-      #if HAS_FAN 
         if (OTVISI(TUNE_CASE_FAN))
           Thumb_Item_Tune_Fan(OTSCROL(TUNE_CASE_FAN));  // Fan Speed
       #endif
@@ -10380,9 +10379,6 @@ void HMI_ThumbTune() {
 
 #endif
 
-
-
-
 void HMI_Tune()
 {
   ENCODER_DiffState encoder_diffState = get_encoder_state();
@@ -10447,7 +10443,7 @@ void HMI_Tune()
     break;
     case TUNE_CASE_SPEED: // Print speed
       checkkey = PrintSpeed;
-      HMI_ValueStruct.print_speed = feedrate_percentage;
+      HMI_ValueStruct.print_speed = motion.feedrate_percentage;
       DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(TUNE_CASE_SPEED + MROWS - index_tune) + PRINT_SET_OFFSET, HMI_ValueStruct.print_speed);
       EncoderRate.enabled = true;
       break;
@@ -10482,7 +10478,7 @@ void HMI_Tune()
     case TUNE_CASE_ZOFF: // With offset
 #if ANY(HAS_BED_PROBE, BABYSTEPPING)
       checkkey = Homeoffset;
-      HMI_ValueStruct.offset_value = BABY_Z_VAR * 100;
+      HMI_ValueStruct.offset_value = probe.offset.z * 100;
       DWIN_Draw_Signed_Float(font8x16, Select_Color, 2, 2, VALUERANGE_X - 14, MBASE(TUNE_CASE_ZOFF + MROWS - index_tune), HMI_ValueStruct.offset_value);
       EncoderRate.enabled = true;
 #else
