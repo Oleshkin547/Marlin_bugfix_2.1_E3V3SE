@@ -2208,6 +2208,7 @@ void Draw_Tune_Menu()
   if (TVISI(TUNE_CASE_FAN))
     Item_Tune_Fan(TSCROL(TUNE_CASE_FAN)); // Fan Speed
 #endif
+
 #if HAS_ZOFFSET_ITEM
   if (TVISI(TUNE_CASE_ZOFF))
     Item_Tune_Zoffset(TSCROL(TUNE_CASE_ZOFF)); // Z offset
