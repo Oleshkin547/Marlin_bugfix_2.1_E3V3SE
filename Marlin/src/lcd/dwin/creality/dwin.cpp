@@ -3998,10 +3998,7 @@ void HMI_ETemp()
     #endif    
     }
 
-    float temp_val = HMI_ValueStruct.E_Temp; // Создаем временную переменную
-    if (Apply_Encoder(encoder_diffState, temp_val)) { // Передаем её в функцию
-    HMI_ValueStruct.E_Temp = temp_val; // Записываем результат обратно
-      }
+    if (Apply_Encoder(encoder_diffState, HMI_ValueStruct.E_Temp))
     {
       EncoderRate.enabled = false;
       // E_Temp limit
@@ -4051,6 +4048,55 @@ void HMI_ETemp()
       }
       else
       {
+        
+    #if ENABLED(DWIN_RENDER_THUMBNAIL)
+        if(hasThumbnail){
+          checkkey = ThumbTune;
+          DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, THUMB_MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
+        }else{
+          checkkey = Tune;
+          DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
+        }
+    #else
+        checkkey = Tune;
+        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
+    #endif
+      }
+#if ENABLED(USE_SWITCH_POWER_200W)
+      while ((thermalManager.degTargetBed() > 0) && (ABS(thermalManager.degTargetBed() - thermalManager.degBed()) > TEMP_WINDOW))
+      {
+        idle();
+      }
+#endif
+      thermalManager.setTargetHotend(HMI_ValueStruct.E_Temp, 0);
+      return;
+    }
+    // E_Temp limit
+    LIMIT(HMI_ValueStruct.E_Temp, HEATER_0_MINTEMP, thermalManager.hotend_max_target(0));
+    // E_Temp value
+
+    if (0 == HMI_ValueStruct.show_mode)
+    #if ENABLED(DWIN_RENDER_THUMBNAIL)
+      if(hasThumbnail){
+        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, THUMB_MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
+      }else{
+        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
+      }  
+    #else 
+      DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
+    #endif  
+    else
+    #if ENABLED(DWIN_RENDER_THUMBNAIL)
+      if(hasThumbnail){
+        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, THUMB_MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
+      }else{
+        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
+      }  
+    #else
+      DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
+    #endif
+  }
+}
         
     #if ENABLED(DWIN_RENDER_THUMBNAIL)
         if(hasThumbnail){
