@@ -3967,22 +3967,42 @@ void HMI_ETemp()
     switch (HMI_ValueStruct.show_mode)
     {
     case -1:
+    #if ENABLED(DWIN_RENDER_THUMBNAIL)
+      if(hasThumbnail)
+        temp_line = select_temp.now + ThumbMROWS - index_temp;
+      else
+        temp_line = select_temp.now + MROWS - index_temp; 
+    #else
       temp_line = select_temp.now + MROWS - index_temp;
+    #endif    
       break;
     case -2:
+      temp_line = PREHEAT_CASE_TEMP;
+      break;
     case -3:
+      temp_line = PREHEAT_CASE_TEMP;
+      break;
     case -7:
+      temp_line = PREHEAT_CASE_TEMP;
+      break;
     case -8:
       temp_line = PREHEAT_CASE_TEMP;
       break;
     default:
+    #if ENABLED(DWIN_RENDER_THUMBNAIL)
+      if(hasThumbnail)
+        temp_line = TUNE_CASE_TEMP + ThumbMROWS - thumb_index_tune;
+      else
+        temp_line = TUNE_CASE_TEMP + MROWS - index_tune;
+    #else
       temp_line = TUNE_CASE_TEMP + MROWS - index_tune;
-      break;
+    #endif    
     }
 
     if (Apply_Encoder(encoder_diffState, HMI_ValueStruct.E_Temp))
     {
       EncoderRate.enabled = false;
+      // E_Temp limit
       LIMIT(HMI_ValueStruct.E_Temp, HEATER_0_MINTEMP, thermalManager.hotend_max_target(0));
       if (HMI_ValueStruct.show_mode == -2)
       {
@@ -3998,6 +4018,7 @@ void HMI_ETemp()
         DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, ui.material_preset[1].hotend_temp);
         return;
       }
+    #if ENABLED(PREHEAT_EXTRA_LABELS)
       else if (HMI_ValueStruct.show_mode == -7)
       {
         checkkey = PETGPreheat;
@@ -4012,28 +4033,22 @@ void HMI_ETemp()
         DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, ui.material_preset[3].hotend_temp);
         return;
       }
-      else if (HMI_ValueStruct.show_mode == -1)
+    #endif
+      else if (HMI_ValueStruct.show_mode == -1) // Temperature
       {
         checkkey = TemperatureID;
+    #if ENABLED(DWIN_RENDER_THUMBNAIL)
+        if(hasThumbnail){
+          DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, THUMB_MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
+        }else{
+          DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
+        }
+    #else
         DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
+    #endif    
       }
       else
       {
-        checkkey = Tune;
-        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
-      }
-      thermalManager.setTargetHotend(HMI_ValueStruct.E_Temp, 0);
-      return;
-    }
-
-    LIMIT(HMI_ValueStruct.E_Temp, HEATER_0_MINTEMP, thermalManager.hotend_max_target(0));
-
-    if (0 == HMI_ValueStruct.show_mode)
-      DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
-    else
-      DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
-  }
-}
         
     #if ENABLED(DWIN_RENDER_THUMBNAIL)
         if(hasThumbnail){
@@ -4083,7 +4098,6 @@ void HMI_ETemp()
     #endif
   }
 }
-
 
 void HMI_EFlow()
 {
