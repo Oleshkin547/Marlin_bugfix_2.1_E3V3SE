@@ -8289,10 +8289,10 @@ void HMI_AxisMove()
     if (encoder_diffState == ENCODER_DIFF_ENTER)
     {
       HMI_flag.ETempTooLow_flag = false;
-      HMI_ValueStruct.Move_X_scaled = current_position.x * MINUNITMULT; // Rock 20210827
-      HMI_ValueStruct.Move_Y_scaled = current_position.y * MINUNITMULT; // Rock 20210827
-      HMI_ValueStruct.Move_Z_scaled = current_position.z * MINUNITMULT;
-      HMI_ValueStruct.Move_E_scaled = current_position[E_AXIS] * MINUNITMULT;
+      HMI_ValueStruct.Move_X_scaled = motion.position.x * MINUNITMULT; // Rock 20210827
+      HMI_ValueStruct.Move_Y_scaled = motion.position.y * MINUNITMULT; // Rock 20210827
+      HMI_ValueStruct.Move_Z_scaled = motion.position.z * MINUNITMULT;
+      HMI_ValueStruct.Move_E_scaled = motion.position.e * MINUNITMULT;
       Draw_Move_Menu();
       // DWIN_Draw_FloatValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, 1, VALUERANGE_X, MBASE(1), HMI_ValueStruct.Move_X_scaled);
       DWIN_Draw_Signed_Float(font8x16, Color_Bg_Black, 3, UNITFDIGITS, VALUERANGE_X, MBASE(1), HMI_ValueStruct.Move_X_scaled);
@@ -8332,21 +8332,21 @@ void HMI_AxisMove()
       break;
     case 1: // X axis move
       checkkey = Move_X;
-      HMI_ValueStruct.Move_X_scaled = current_position.x * MINUNITMULT;
+      HMI_ValueStruct.Move_X_scaled = motion.position.x * MINUNITMULT;
       // DWIN_Draw_FloatValue(true, true, 0, font8x16, Color_White, Select_Color, 3, 1, VALUERANGE_X, MBASE(1), HMI_ValueStruct.Move_X_scaled);
       DWIN_Draw_Signed_Float(font8x16, Select_Color, 3, UNITFDIGITS, VALUERANGE_X, MBASE(1), HMI_ValueStruct.Move_X_scaled);
       EncoderRate.enabled = true;
       break;
     case 2: // Y axis move
       checkkey = Move_Y;
-      HMI_ValueStruct.Move_Y_scaled = current_position.y * MINUNITMULT;
+      HMI_ValueStruct.Move_Y_scaled = motion.position.y * MINUNITMULT;
       // DWIN_Draw_FloatValue(true, true, 0, font8x16, Color_White, Select_Color, 3, 1, VALUERANGE_X, MBASE(2), HMI_ValueStruct.Move_Y_scaled);
       DWIN_Draw_Signed_Float(font8x16, Select_Color, 3, UNITFDIGITS, VALUERANGE_X, MBASE(2), HMI_ValueStruct.Move_Y_scaled);
       EncoderRate.enabled = true;
       break;
     case 3: // Z axis move
       checkkey = Move_Z;
-      HMI_ValueStruct.Move_Z_scaled = current_position.z * MINUNITMULT;
+      HMI_ValueStruct.Move_Z_scaled = motion.position.z * MINUNITMULT;
       // DWIN_Draw_FloatValue(true, true, 0, font8x16, Color_White, Select_Color, 3, 1, VALUERANGE_X, MBASE(3), HMI_ValueStruct.Move_Z_scaled);
       DWIN_Draw_Signed_Float(font8x16, Select_Color, 3, UNITFDIGITS, VALUERANGE_X, MBASE(3), HMI_ValueStruct.Move_Z_scaled);
       EncoderRate.enabled = true;
@@ -8363,7 +8363,7 @@ void HMI_AxisMove()
       }
 #endif
       checkkey = Extruder;
-      HMI_ValueStruct.Move_E_scaled = current_position[E_AXIS] * MINUNITMULT;
+      HMI_ValueStruct.Move_E_scaled = motion.position.e * MINUNITMULT;
       DWIN_Draw_Signed_Float(font8x16, Select_Color, 3, 1, VALUERANGE_X, MBASE(4), HMI_ValueStruct.Move_E_scaled);
       EncoderRate.enabled = true;
       break;
@@ -8371,8 +8371,8 @@ void HMI_AxisMove()
 
     case 5:
     { // Probe deploy
-      gcode.process_subcommands_now(PSTR("G0 Z40 F7000"));
-      gcode.process_subcommands_now(PSTR("G4 P1000"));
+      gcode.process_subcommands_now(F("G0 Z40 F7000"));
+      gcode.process_subcommands_now(F("G4 P1000"));
       bool r = probe.deploy();
       if (!r)
         {
@@ -8389,8 +8389,8 @@ void HMI_AxisMove()
 
     case 6:
     { // Probe Stow
-      gcode.process_subcommands_now(PSTR("G0 Z40 F7000"));
-      gcode.process_subcommands_now(PSTR("G4 P1000"));
+      gcode.process_subcommands_now(F("G0 Z40 F7000"));
+      gcode.process_subcommands_now(F("G4 P1000"));
       bool r2 = probe.stow();
       if (!r2)
         {
