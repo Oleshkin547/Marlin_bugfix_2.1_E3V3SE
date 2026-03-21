@@ -2208,7 +2208,6 @@ void Draw_Tune_Menu()
   if (TVISI(TUNE_CASE_FAN))
     Item_Tune_Fan(TSCROL(TUNE_CASE_FAN)); // Fan Speed
 #endif
-
 #if HAS_ZOFFSET_ITEM
   if (TVISI(TUNE_CASE_ZOFF))
     Item_Tune_Zoffset(TSCROL(TUNE_CASE_ZOFF)); // Z offset
@@ -3999,7 +3998,10 @@ void HMI_ETemp()
     #endif    
     }
 
-    if (Apply_Encoder(encoder_diffState, HMI_ValueStruct.E_Temp))
+    float temp_val = HMI_ValueStruct.E_Temp; // Создаем временную переменную
+    if (Apply_Encoder(encoder_diffState, temp_val)) { // Передаем её в функцию
+    HMI_ValueStruct.E_Temp = temp_val; // Записываем результат обратно
+      }
     {
       EncoderRate.enabled = false;
       // E_Temp limit
@@ -4049,55 +4051,6 @@ void HMI_ETemp()
       }
       else
       {
-        
-    #if ENABLED(DWIN_RENDER_THUMBNAIL)
-        if(hasThumbnail){
-          checkkey = ThumbTune;
-          DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, THUMB_MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
-        }else{
-          checkkey = Tune;
-          DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
-        }
-    #else
-        checkkey = Tune;
-        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Color_Bg_Black, 3, VALUERANGE_X, MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
-    #endif
-      }
-#if ENABLED(USE_SWITCH_POWER_200W)
-      while ((thermalManager.degTargetBed() > 0) && (ABS(thermalManager.degTargetBed() - thermalManager.degBed()) > TEMP_WINDOW))
-      {
-        idle();
-      }
-#endif
-      thermalManager.setTargetHotend(HMI_ValueStruct.E_Temp, 0);
-      return;
-    }
-    // E_Temp limit
-    LIMIT(HMI_ValueStruct.E_Temp, HEATER_0_MINTEMP, thermalManager.hotend_max_target(0));
-    // E_Temp value
-
-    if (0 == HMI_ValueStruct.show_mode)
-    #if ENABLED(DWIN_RENDER_THUMBNAIL)
-      if(hasThumbnail){
-        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, THUMB_MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
-      }else{
-        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
-      }  
-    #else 
-      DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(temp_line) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
-    #endif  
-    else
-    #if ENABLED(DWIN_RENDER_THUMBNAIL)
-      if(hasThumbnail){
-        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, THUMB_MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
-      }else{
-        DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
-      }  
-    #else
-      DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(temp_line) + TEMP_SET_OFFSET, HMI_ValueStruct.E_Temp);
-    #endif
-  }
-}
         
     #if ENABLED(DWIN_RENDER_THUMBNAIL)
         if(hasThumbnail){
@@ -10381,6 +10334,9 @@ void HMI_ThumbTune() {
 
 #endif
 
+
+
+
 void HMI_Tune()
 {
   ENCODER_DiffState encoder_diffState = get_encoder_state();
@@ -10436,18 +10392,28 @@ void HMI_Tune()
   else if (encoder_diffState == ENCODER_DIFF_ENTER)
   {
     switch (select_tune.now)
-{
-  case 0: ...
-  case TUNE_CASE_SPEED: ...
-#if HAS_HOTEND
-  case TUNE_CASE_TEMP: ...
-  case TUNE_CASE_FLOW:   // <-- ваш новый кейс
-    checkkey = EFlow;
-    HMI_ValueStruct.E_Flow = planner.flow_percentage[0];
-    LIMIT(HMI_ValueStruct.E_Flow, FLOW_MINVAL, FLOW_MAXVAL);
-    DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(TUNE_CASE_FLOW + MROWS - index_tune) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Flow);
-    EncoderRate.enabled = true;
+    {
+    case 0:
+    { // Back
+      select_print.set(0);
+      Goto_PrintProcess();
+    }
     break;
+    case TUNE_CASE_SPEED: // Print speed
+      checkkey = PrintSpeed;
+      HMI_ValueStruct.print_speed = feedrate_percentage;
+      DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(TUNE_CASE_SPEED + MROWS - index_tune) + PRINT_SET_OFFSET, HMI_ValueStruct.print_speed);
+      EncoderRate.enabled = true;
+      break;
+#if HAS_HOTEND
+    case TUNE_CASE_TEMP: // Nozzle temp
+      checkkey = ETemp;
+      HMI_ValueStruct.E_Temp = thermalManager.degTargetHotend(0);
+      LIMIT(HMI_ValueStruct.E_Temp, HEATER_0_MINTEMP, thermalManager.hotend_max_target(0));
+      DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(TUNE_CASE_TEMP + MROWS - index_tune) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
+      EncoderRate.enabled = true;
+      break;
+
 #endif
 #if HAS_HEATED_BED
     case TUNE_CASE_BED: // Bed temp
@@ -10470,7 +10436,7 @@ void HMI_Tune()
     case TUNE_CASE_ZOFF: // With offset
 #if ANY(HAS_BED_PROBE, BABYSTEPPING)
       checkkey = Homeoffset;
-      HMI_ValueStruct.offset_value = probe.offset.z * 100;
+      HMI_ValueStruct.offset_value = BABY_Z_VAR * 100;
       DWIN_Draw_Signed_Float(font8x16, Select_Color, 2, 2, VALUERANGE_X - 14, MBASE(TUNE_CASE_ZOFF + MROWS - index_tune), HMI_ValueStruct.offset_value);
       EncoderRate.enabled = true;
 #else
@@ -10486,6 +10452,8 @@ void HMI_Tune()
   }
   DWIN_UpdateLCD();
 }
+
+#if HAS_PREHEAT
 
 /* PLA Preheat */
 void HMI_PLAPreheatSetting()
