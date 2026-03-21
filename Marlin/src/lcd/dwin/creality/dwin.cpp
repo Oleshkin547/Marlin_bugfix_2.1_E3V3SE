@@ -10436,35 +10436,18 @@ void HMI_Tune()
   else if (encoder_diffState == ENCODER_DIFF_ENTER)
   {
     switch (select_tune.now)
-    {
-    case 0:
-    { // Back
-      select_print.set(0);
-      Goto_PrintProcess();
-    }
-    break;
-    case TUNE_CASE_SPEED: // Print speed
-      checkkey = PrintSpeed;
-      HMI_ValueStruct.print_speed = motion.feedrate_percentage;
-      DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(TUNE_CASE_SPEED + MROWS - index_tune) + PRINT_SET_OFFSET, HMI_ValueStruct.print_speed);
-      EncoderRate.enabled = true;
-      break;
+{
+  case 0: ...
+  case TUNE_CASE_SPEED: ...
 #if HAS_HOTEND
-    case TUNE_CASE_TEMP: // Nozzle temp
-      checkkey = ETemp;
-      HMI_ValueStruct.E_Temp = thermalManager.degTargetHotend(0);
-      LIMIT(HMI_ValueStruct.E_Temp, HEATER_0_MINTEMP, thermalManager.hotend_max_target(0));
-      DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(TUNE_CASE_TEMP + MROWS - index_tune) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Temp);
-      EncoderRate.enabled = true;
-      break;
-
-    case TUNE_CASE_FLOW: // Flow rate  <-- ДОБАВЛЕННЫЙ БЛОК
-      checkkey = EFlow;
-      HMI_ValueStruct.E_Flow = planner.flow_percentage[0];
-      LIMIT(HMI_ValueStruct.E_Flow, FLOW_MINVAL, FLOW_MAXVAL);
-      DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(TUNE_CASE_FLOW + MROWS - index_tune) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Flow);
-      EncoderRate.enabled = true;
-      break;
+  case TUNE_CASE_TEMP: ...
+  case TUNE_CASE_FLOW:   // <-- ваш новый кейс
+    checkkey = EFlow;
+    HMI_ValueStruct.E_Flow = planner.flow_percentage[0];
+    LIMIT(HMI_ValueStruct.E_Flow, FLOW_MINVAL, FLOW_MAXVAL);
+    DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(TUNE_CASE_FLOW + MROWS - index_tune) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Flow);
+    EncoderRate.enabled = true;
+    break;
 #endif
 #if HAS_HEATED_BED
     case TUNE_CASE_BED: // Bed temp
