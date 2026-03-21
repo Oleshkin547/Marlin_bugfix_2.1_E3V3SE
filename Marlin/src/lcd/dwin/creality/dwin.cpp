@@ -10331,9 +10331,6 @@ void HMI_ThumbTune() {
 
 #endif
 
-
-
-
 void HMI_Tune()
 {
   ENCODER_DiffState encoder_diffState = get_encoder_state();
@@ -10411,13 +10408,6 @@ void HMI_Tune()
       EncoderRate.enabled = true;
       break;
 
-    case TUNE_CASE_FLOW: // Flow rate
-      checkkey = EFlow;
-      HMI_ValueStruct.E_Flow = planner.flow_percentage[0];
-      LIMIT(HMI_ValueStruct.E_Flow, FLOW_MINVAL, FLOW_MAXVAL);
-      DWIN_Draw_IntValue(true, true, 0, font8x16, Color_White, Select_Color, 3, VALUERANGE_X, MBASE(TUNE_CASE_FLOW + MROWS - index_tune) + PRINT_SET_OFFSET, HMI_ValueStruct.E_Flow);
-      EncoderRate.enabled = true;
-      break;
 #endif
 #if HAS_HEATED_BED
     case TUNE_CASE_BED: // Bed temp
@@ -10456,6 +10446,7 @@ void HMI_Tune()
   }
   DWIN_UpdateLCD();
 }
+
 #if HAS_PREHEAT
 
 /* PLA Preheat */
